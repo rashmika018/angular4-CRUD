@@ -1,0 +1,48 @@
+.btn-bordred.btn-warning {
+    border-bottom: 2px solid #136cb0 !important;
+}
+.btn-warning {
+    background-color: #1889e1 !important;
+    border: 1px solid #1889e1 !important;
+}
+.btn-bordred {
+    border-bottom: 3px solid transparent;
+}
+.btn {
+    border-radius: 2px;
+    padding: 7px 20px 6px;
+    font-size: 15px;
+}
+.m-b-15 {
+    margin-bottom: 15px !important;
+}
+label {
+    font-weight: 400;
+    color: #474747;
+    font-size: 15px;
+}
+.form-control {
+    border-radius: 4px;
+    padding: 7px 12px;
+    height: 38px;
+    max-width: 100%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    transition: all 300ms linear;
+}
+.modal .modal-dialog .modal-content .modal-header {
+    background: #36404a;
+    border-bottom: none;
+    padding: 15px;
+}
+.modal .modal-dialog .modal-content .modal-header h4 {
+    color: #FFF;
+}
+.close, .close:hover, .close:focus {
+    color: #FFF;
+    opacity: 1;
+}

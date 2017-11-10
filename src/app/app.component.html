@@ -1,0 +1,137 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="/">Angular4 CRUD</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>   
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+            <a class="nav-link" href="/">
+              <i class="fa fa-fw fa-dashboard"></i>
+              <span class="nav-link-text">Dashboard</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav sidenav-toggler">
+          <li class="nav-item">
+            <a class="nav-link text-center" id="sidenavToggler">
+              <i class="fa fa-fw fa-angle-left"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/"> 
+              <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+          </li>
+        </ul>
+      </div>
+</nav>
+<div class="content-wrapper">
+    <div class="container-fluid">     
+        <div class="clear" style="height: 50px;"></div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Users</li>
+        </ol>
+    <div class="col-md-12">
+        <div class="clearfix pageTitleSection">
+          <h1 class="page-title pull-left">Users List</h1>
+          <button type="button" class="btn btn-primary btn-md pull-right" data-toggle="modal" data-target="#myModal" (click)="showModalForAdd()"><span class="fa fa-plus"></span> Create</button> 
+        </div>
+        <div class="table-responsive">
+           <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+               <thead>
+                 <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Office</th>
+                    <th>Position</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Age</th>
+                    <th width="10%">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of users let i = index">
+                       <td>{{ i+1 }}</td>
+                       <td>{{item.name}}</td>
+                       <td>{{item.office}}</td>
+                       <td>{{item.position}}</td> 
+                       <td>{{item.email}}</td> 
+                       <td>{{item.mobile}}</td>
+                       <td>{{item.age}}</td>
+                       <td>                            
+                         <button type="button" class="btn btn-primary btn-sm" (click)="editUser(item)" data-toggle="modal" data-target="#myModal"><span class="fa fa-edit"></span></button>
+                         <button type="button" class="btn btn-danger btn-sm" (click)="removeUser(item)"><span class="fa fa-close"></span></button>
+                       </td>
+                     </tr>
+                    <tr *ngIf="users && !users.length">
+                       <td colspan="7">No records available in the table.</td>
+                    </tr>
+                </tbody>
+            </table>         
+        </div>
+    </div> 
+    <div class="col-md-12">
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" *ngIf="!isUpdate">Create User</h4>
+                        <h4 class="modal-title" *ngIf="isUpdate">Update User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <form #f="ngForm">
+                  <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                           <label for="name" id="basic-addon1">Name</label>
+                           <input type="text" class="form-control" aria-describedby="basic-addon1" id="name" name="name" minlength="4" maxlength="10" #name="ngModel" required [(ngModel)]="user.name">
+                            <small style="color: red" *ngIf="name.invalid && (name.dirty || name.touched)"> Please enter valid Name having min length 4</small>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="office" id="basic-addon1">Office</label>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" id="office" name="office" minlength="1" maxlength="50" #office="ngModel" required [(ngModel)]="user.office">
+                            <small style="color: red" *ngIf="office.invalid && (office.dirty || office.touched)">Please enter Office Name</small>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="position" id="basic-addon1">Position</label>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" id="position" name="position" minlength="1" maxlength="50" #position="ngModel" required [(ngModel)]="user.position">
+                            <small style="color: red" *ngIf="position.invalid && (position.dirty || position.touched)">Please enter Position Name</small>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <small *ngIf="isUpdate"> Can't update Email address. Its unique key.</small>
+                            <label for="email" id="basic-addon1">Email address</label>
+                            <input type="email" class="form-control" aria-describedby="basic-addon1" id="email" name="email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [(ngModel)]="user.email" [disabled]="isUpdate">
+                            <small style="color: red" *ngIf="email.invalid && (email.dirty || email.touched)">Please enter valid Email address</small>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="mobile" id="basic-addon1">Mobile No.</label>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" id="mobile" name="mobile" #mobile="ngModel" minlength="4" maxlength="10" pattern="[0-9]{10}" required [(ngModel)]="user.mobile">
+                            <small style="color: red" *ngIf="mobile.invalid && (mobile.dirty || mobile.touched)"> Please enter 10 digit valid mobile number</small>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="age" id="basic-addon1">Age</label>
+                            <input type="number" class="form-control" aria-describedby="basic-addon1" id="age" name="age" #age="ngModel" minlength="1" maxlength="3"  required [(ngModel)]="user.age">
+                            <small style="color: red" *ngIf="age.invalid && (age.dirty || age.touched)"> Please enter valid age</small>
+                        </div>                       
+                    </div>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-primary btn-md" [disabled]="name.invalid || office.invalid || position.invalid || email.invalid || mobile.invalid || age.invalid" (click)="addNewUser(user, f)" data-dismiss="modal" *ngIf="!isUpdate"><span class="fa fa-check"></span> Save</button>
+                   <button type="button" class="btn btn-sm btn-success" [disabled]="name.invalid || office.invalid || position.invalid || email.invalid || mobile.invalid || age.invalid" (click)="updateUser(user, f)" data-dismiss="modal" *ngIf="isUpdate"><span class="fa fa-check"></span> Save</button>
+                   <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                </div>
+             </form>
+        </div>
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
